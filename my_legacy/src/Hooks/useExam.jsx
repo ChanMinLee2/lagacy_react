@@ -1,24 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { axiosInstance } from "../api/apiConstants";
 
-import React from "react";
-
-export default function useExam(level, amount) {
+export default function useExam(level, amount, ranked) {
+  const [exam, setExam] = useState(null);
   useEffect(() => {
-    async function getExam(level, amount) {
+    async function getExam(level, amount, ranked) {
       try {
-        const exam = await axiosInstance.get(`/exam`, {
+        const exam = await axiosInstance.post(`/exam`, {
           level: level,
           amount: amount,
+          ranked: ranked,
         });
-        const examInfo = exam.data;
+        const examInfo = await exam.data;
+        setExam(examInfo);
+        // console.log(examInfo);
         localStorage.setItem("examInfo", JSON.stringify(examInfo));
       } catch (error) {
         console.error("Login error:", error);
       }
     }
-    getExam(level, amount);
-  }, [level, amount]);
-  return;
+    if (!exam) {
+      getExam(level, amount, ranked);
+    }
+  }, []);
+  return localStorage.getItem("examInfo");
 }

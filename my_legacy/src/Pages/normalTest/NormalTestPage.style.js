@@ -36,7 +36,7 @@ export const AnswerInput = styled.input`
 `;
 
 export const Feedback = styled.div`
-  color: ${(props) => (props.correct ? "green" : "red")};
+  color: ${(props) => (props.correct == "true" ? "green" : "red")};
   font-weight: bold;
 `;
 

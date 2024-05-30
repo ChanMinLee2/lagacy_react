@@ -2,8 +2,11 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./MenuPage.style";
 import useUserMe from "../../Hooks/useUserMe";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const MenuPage = () => {
+  const navigate = useNavigate();
   const userID = localStorage.getItem("userID");
   let userInfo = useUserMe(userID);
   userInfo = JSON.parse(userInfo);
@@ -15,6 +18,10 @@ const MenuPage = () => {
     [1, 0, 0, 1, 1, 0, 1], // Week 4
     [0, 1, 1, 0, 0, 1, 1], // Week 5
   ];
+
+  const getRandomLevel = () => {
+    return Math.floor(Math.random() * 4) + 1;
+  };
 
   return (
     <S.Container>
@@ -50,7 +57,22 @@ const MenuPage = () => {
       <S.TestCategory>
         <S.CategoryTitle>🗡 단어 테스트</S.CategoryTitle>
         <S.TestOption href="/testChoice">🍏 일반 단어 맞추기</S.TestOption>
-        <S.TestOption href="/test">🍎 내 수준 점검하기</S.TestOption>
+        {/* <Link
+          to={{
+            pathname: "/test",
+            state: { level: getRandomLevel(), amount: 10, ranked: true },
+          }}
+        > */}
+        <S.TestOption
+          onClick={() => {
+            navigate(
+              `/test?level=${getRandomLevel()}&amount=${10}&ranked=${true}`
+            );
+          }}
+        >
+          🍎 내 수준 점검하기
+        </S.TestOption>
+        {/* </Link> */}
       </S.TestCategory>
       <S.AdminBox>
         <S.AdminOption href="/wordManage">🔍 단어 관리</S.AdminOption>
