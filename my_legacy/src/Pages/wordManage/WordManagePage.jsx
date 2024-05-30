@@ -1,31 +1,41 @@
 // WordManagePage.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./WordManagePage.style";
+import useWordList from "../../Hooks/useWordList";
 
 const WordManagePage = () => {
-  const words = [
-    {
-      pos: "n",
-      english: "mean",
-      korean: "평균",
-      level: 2,
-      lastModified: "2024-05-10 01:52:18",
-    },
-    {
-      pos: "n",
-      english: "min",
-      korean: "최소",
-      level: 1,
-      lastModified: "2024-05-10 01:07:16",
-    },
-    {
-      pos: "n",
-      english: "max",
-      korean: "최대",
-      level: 1,
-      lastModified: "2024-05-10 00:51:58",
-    },
-  ];
+  const [wordList, setWordList] = useState();
+  const [ordering, setOrdering] = useState("");
+  useWordList(ordering);
+  useEffect(() => {
+    // console.log(localStorage.getItem("wordsInfo"));
+    setWordList(JSON.parse(localStorage.getItem("wordsInfo")));
+  }, [localStorage.getItem("wordsInfo")]);
+  // const words = [
+  //   {
+  //     pos: "n",
+  //     english: "mean",
+  //     korean: "평균",
+  //     level: 2,
+  //     lastModified: "2024-05-10 01:52:18",
+  //   },
+  //   {
+  //     pos: "n",
+  //     english: "min",
+  //     korean: "최소",
+  //     level: 1,
+  //     lastModified: "2024-05-10 01:07:16",
+  //   },
+  //   {
+  //     pos: "n",
+  //     english: "max",
+  //     korean: "최대",
+  //     level: 1,
+  //     lastModified: "2024-05-10 00:51:58",
+  //   },
+  // ];
+
+  const words = wordList;
 
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -66,21 +76,28 @@ const WordManagePage = () => {
     setEditModalOpen(true);
   };
 
+  const query_params = [
+    "?ordering=english",
+    "?ordering=-english",
+    "?ordering=date_modified",
+    "?ordering=-date_modified",
+  ];
+
   return (
     <S.Container>
       <S.BackButton href="/menu">홈으로</S.BackButton>
       <S.Header>단어 조회</S.Header>
       <S.SortButtons>
-        <S.SortButton onClick={() => handleSort("alphabet_asc")}>
+        <S.SortButton onClick={() => setOrdering(query_params[0])}>
           알파벳 오름차순
         </S.SortButton>
-        <S.SortButton onClick={() => handleSort("alphabet_desc")}>
+        <S.SortButton onClick={() => setOrdering(query_params[1])}>
           알파벳 내림차순
         </S.SortButton>
-        <S.SortButton onClick={() => handleSort("date_asc")}>
+        <S.SortButton onClick={() => setOrdering(query_params[2])}>
           수정된 날짜 오름차순
         </S.SortButton>
-        <S.SortButton onClick={() => handleSort("date_desc")}>
+        <S.SortButton onClick={() => setOrdering(query_params[3])}>
           수정된 날짜 내림차순
         </S.SortButton>
       </S.SortButtons>
@@ -98,11 +115,11 @@ const WordManagePage = () => {
         <S.TableBody>
           {words.map((word, index) => (
             <S.TableRow key={index}>
-              <S.TableCell>{word.pos}</S.TableCell>
+              <S.TableCell>{word.type}</S.TableCell>
               <S.TableCell>{word.english}</S.TableCell>
               <S.TableCell>{word.korean}</S.TableCell>
               <S.TableCell>{word.level}</S.TableCell>
-              <S.TableCell>{word.lastModified}</S.TableCell>
+              <S.TableCell>{word.date_modified}</S.TableCell>
               <S.TableCell>
                 <S.ActionButton
                   color="#4caf50"

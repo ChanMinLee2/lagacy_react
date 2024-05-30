@@ -1,11 +1,17 @@
 // MenuPage.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./MenuPage.style";
+import useUserMe from "../../Hooks/useUserMe";
 
 const MenuPage = () => {
-  const username = "hepheir"; // 임시 데이터, 실제로는 props나 state에서 받아와야 합니다.
-  const userLevel = 2; // 임시 데이터, 실제로는 props나 state에서 받아와야 합니다.
-  const streakDays = 55; // 임시 데이터, 실제로는 props나 state에서 받아와야 합니다.
+  const [userInfo, setUserInfo] = useState();
+  useUserMe();
+  useEffect(() => {
+    const me = JSON.parse(localStorage.getItem("userInfo"));
+    setUserInfo(me);
+    console.log(me);
+  }, [localStorage.getItem("userInfo")]);
+
   const streakData = [
     [1, 1, 1, 0, 0, 1, 1], // Week 1
     [1, 0, 1, 1, 0, 1, 1], // Week 2
@@ -20,8 +26,8 @@ const MenuPage = () => {
       <S.HeaderImage src="" />
       <S.ProfileContainer>
         <S.ProfilePic />
-        <S.Username>{username}</S.Username>
-        <S.UserLevel>사용자 수준: {userLevel}</S.UserLevel>
+        <S.Username>{userInfo.username}</S.Username>
+        <S.UserLevel>현재 사용자 레벨 : {userInfo.level}</S.UserLevel>
       </S.ProfileContainer>
       <S.StreakCalendar>
         {streakData.map((week, i) => (
@@ -34,7 +40,7 @@ const MenuPage = () => {
       </S.StreakCalendar>
       <S.StreakBox>
         <S.StreakTitle>🪴 스트릭</S.StreakTitle>
-        <S.StreakCount>오늘 포함 {streakDays}일</S.StreakCount>
+        <S.StreakCount>오늘 포함 {userInfo.streak}일</S.StreakCount>
       </S.StreakBox>
       <S.PointsBox href="/store">
         <S.PointsTitle>🪙 포인트 상점 & 인벤토리</S.PointsTitle>

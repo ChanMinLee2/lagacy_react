@@ -2,29 +2,32 @@
 import React from "react";
 import * as S from "./LoginPage.style";
 import { useState } from "react";
-import axios from "axios";
-import { url, config } from "../../api/apiConstants";
+import { axiosInstance } from "../../api/apiConstants";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginPage = () => {
-  const [loginID, setLoginID] = useState("");
-  const [loginPW, setLoginPW] = useState("");
+  // const username = useSelector((state) => state.user.username);
+  // const dispatch = useDispatch();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const nav = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { username: loginID, password: loginPW };
-    const loginURL = url + "/user/login";
-
+    const data = { username: username, password: password };
     try {
-      const res = await axios.post(loginURL, data, config);
-      console.log(res.data);
+      // console.log(username, password, loginURL);
+      const users = await axiosInstance.post("/user/login", data);
+      // const users = await axios.post(loginURL, data, config);
+      console.log(users);
+      localStorage.clear();
+      localStorage.setItem("userID", users.data.id);
       nav("/menu");
     } catch (error) {
       console.error("Login error:", error);
     }
   };
-  console.log(loginID, loginPW);
 
   return (
     <S.Container>
@@ -34,15 +37,15 @@ const LoginPage = () => {
           type="text"
           placeholder="사용자명"
           required
-          defaultValue={loginID}
-          onChange={(e) => setLoginID(e.target.value)}
+          defaultValue={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <S.Input
           type="password"
           placeholder="비밀번호"
           required
-          defaultValue={loginPW}
-          onChange={(e) => setLoginPW(e.target.value)}
+          defaultValue={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         <S.Footer>
