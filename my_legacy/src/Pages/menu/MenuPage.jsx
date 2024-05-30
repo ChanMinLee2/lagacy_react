@@ -4,13 +4,9 @@ import * as S from "./MenuPage.style";
 import useUserMe from "../../Hooks/useUserMe";
 
 const MenuPage = () => {
-  const [userInfo, setUserInfo] = useState();
-  useUserMe();
-  useEffect(() => {
-    const me = JSON.parse(localStorage.getItem("userInfo"));
-    setUserInfo(me);
-    console.log(me);
-  }, [localStorage.getItem("userInfo")]);
+  const userID = localStorage.getItem("userID");
+  let userInfo = useUserMe(userID);
+  userInfo = JSON.parse(userInfo);
 
   const streakData = [
     [1, 1, 1, 0, 0, 1, 1], // Week 1
@@ -26,8 +22,11 @@ const MenuPage = () => {
       <S.HeaderImage src="" />
       <S.ProfileContainer>
         <S.ProfilePic />
-        <S.Username>{userInfo.username}</S.Username>
-        <S.UserLevel>현재 사용자 레벨 : {userInfo.level}</S.UserLevel>
+        {console.log(userInfo)}
+        {userInfo.username && <S.Username>{userInfo.username}</S.Username>}
+        {userInfo.level && (
+          <S.UserLevel>현재 사용자 레벨 : {userInfo.level}</S.UserLevel>
+        )}
       </S.ProfileContainer>
       <S.StreakCalendar>
         {streakData.map((week, i) => (
@@ -40,7 +39,9 @@ const MenuPage = () => {
       </S.StreakCalendar>
       <S.StreakBox>
         <S.StreakTitle>🪴 스트릭</S.StreakTitle>
-        <S.StreakCount>오늘 포함 {userInfo.streak}일</S.StreakCount>
+        {userInfo.streak && (
+          <S.StreakCount>오늘 포함 {userInfo.streak}일</S.StreakCount>
+        )}
       </S.StreakBox>
       <S.PointsBox href="/store">
         <S.PointsTitle>🪙 포인트 상점 & 인벤토리</S.PointsTitle>

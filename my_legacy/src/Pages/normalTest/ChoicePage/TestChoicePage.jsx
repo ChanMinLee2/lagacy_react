@@ -2,15 +2,11 @@ import React, { useState } from "react";
 import * as S from "./TestChoicePage.style";
 
 const TestChoicePage = () => {
-  const [selectedLevels, setSelectedLevels] = useState([]);
+  const [selectedLevel, setSelectedLevel] = useState(null);
   const [selectedQuestions, setSelectedQuestions] = useState("10문제");
 
-  const handleLevelToggle = (level) => {
-    setSelectedLevels((prevSelectedLevels) =>
-      prevSelectedLevels.includes(level)
-        ? prevSelectedLevels.filter((item) => item !== level)
-        : [...prevSelectedLevels, level]
-    );
+  const handleLevelChange = (level) => {
+    setSelectedLevel(level);
   };
 
   const handleQuestionsChange = (questions) => {
@@ -30,8 +26,8 @@ const TestChoicePage = () => {
         ].map((level) => (
           <S.LevelButton
             key={level}
-            selected={selectedLevels.includes(level)}
-            onClick={() => handleLevelToggle(level)}
+            selected={selectedLevel === level}
+            onClick={() => handleLevelChange(level)}
           >
             {level}
           </S.LevelButton>
@@ -40,9 +36,8 @@ const TestChoicePage = () => {
       <S.QuestionsHeader>문제 수</S.QuestionsHeader>
       <S.QuestionsSelection>
         {["10문제", "20문제", "30문제", "40문제"].map((question) => (
-          <S.QuestionsContainer>
+          <S.QuestionsContainer key={question}>
             <S.QuestionRadio
-              key={question}
               type="radio"
               name="questions"
               value={question}
