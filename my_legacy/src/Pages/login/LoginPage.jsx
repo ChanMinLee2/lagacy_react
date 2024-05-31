@@ -1,14 +1,9 @@
-// LoginPage.jsx
-import React from "react";
+import React, { useState } from "react";
 import * as S from "./LoginPage.style";
-import { useState } from "react";
 import { axiosInstance } from "../../api/apiConstants";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const LoginPage = () => {
-  // const username = useSelector((state) => state.user.username);
-  // const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const nav = useNavigate();
@@ -17,12 +12,12 @@ const LoginPage = () => {
     e.preventDefault();
     const data = { username: username, password: password };
     try {
-      // console.log(username, password, loginURL);
-      const users = await axiosInstance.post("/user/login", data);
-      // const users = await axios.post(loginURL, data, config);
-      console.log(users);
+      const response = await axiosInstance.post("/user/login", data, {
+        withCredentials: true, // include this line to handle cookies
+      });
+      console.log(response);
       localStorage.clear();
-      localStorage.setItem("userID", users.data.id);
+      localStorage.setItem("userID", response.data.id);
       nav("/menu");
     } catch (error) {
       console.error("Login error:", error);
@@ -37,17 +32,16 @@ const LoginPage = () => {
           type="text"
           placeholder="사용자명"
           required
-          defaultValue={username}
+          value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <S.Input
           type="password"
           placeholder="비밀번호"
           required
-          defaultValue={password}
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
         <S.Footer>
           <S.Links to="/signup">계정 만들기</S.Links>
           <S.Button type="submit">로그인</S.Button>

@@ -18,7 +18,7 @@ const SignupPage = () => {
       const users = await axiosInstance.post("/user/register", data);
       // const users = await axios.post(loginURL, data, config);
       alert("회원가입에 성공하였습니다!");
-      nav("/login");
+      nav("/");
     } catch (error) {
       console.error("Login error:", error);
     }

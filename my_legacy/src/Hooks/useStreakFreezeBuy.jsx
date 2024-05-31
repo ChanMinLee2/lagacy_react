@@ -8,9 +8,10 @@ export default function useStreakFreezeBuy(amount) {
   useEffect(() => {
     async function toggle(amount) {
       try {
-        const buying = await axiosInstance.post(`/streak/freeze`, {
+        const buying = await axiosInstance.post(`/user/9/buy/freeze`, {
           amount: amount,
         });
+        localStorage.setItem("userInfo", JSON.stringify(buying.data));
       } catch (error) {
         console.error("Login error:", error);
       }
@@ -18,5 +19,5 @@ export default function useStreakFreezeBuy(amount) {
 
     toggle(amount);
   }, [amount]);
-  return;
+  return localStorage.getItem("userInfo");
 }

@@ -8,9 +8,11 @@ export default function useStreakFreezeToggle(activate) {
   useEffect(() => {
     async function toggle(activate) {
       try {
-        const toggled = await axiosInstance.patch(`/streak/freeze`, {
-          activate: activate,
+        const toggled = await axiosInstance.patch(`/user/9`, {
+          freeze_activated: activate,
         });
+        const toggled_data = await toggled.data;
+        localStorage.setItem(toggled_data);
       } catch (error) {
         console.error("Login error:", error);
       }

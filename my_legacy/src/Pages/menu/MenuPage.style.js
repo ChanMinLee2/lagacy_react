@@ -5,7 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 90%;
   /* height: 100vh; */
   background-color: #f7f7f7;
 `;
@@ -46,22 +46,26 @@ export const UserLevel = styled.div`
 export const StreakCalendar = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  margin: 20px auto;
+  gap: 10px;
+  margin: 20px 0;
   width: 80%;
-  /* place-self: start center; */
 `;
 
 export const WeekRow = styled.div`
-  display: contents;
+  display: flex;
+  justify-content: space-around;
 `;
 
 export const DayBox = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 4px;
-  place-self: start center;
-  background-color: ${({ learned }) => (learned ? "#66bb6a" : "#e0e0e0")};
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => (props.learned ? "green" : "grey")};
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
 `;
 
 export const StreakBox = styled.div`

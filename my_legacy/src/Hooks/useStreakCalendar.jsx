@@ -3,18 +3,24 @@ import axios from "axios";
 import { axiosInstance } from "../api/apiConstants";
 
 export default function useStreakCalendar(userId) {
-  // const [examRes, setExamRes] = useState();
+  const [calendar, setCalendar] = useState();
+  const [calendarLoading, setCalendarLoading] = useState();
 
   useEffect(() => {
-    async function calender(userId) {
+    async function calendar(userId) {
+      setCalendarLoading(true);
       try {
-        const buying = await axiosInstance.get(`/streak/calendar` + userId);
+        const buying = await axiosInstance.get(`/user/9/calendar`);
+        const data = await buying.data;
+        setCalendar(data);
       } catch (error) {
         console.error("Login error:", error);
+      } finally {
+        setCalendarLoading(false);
       }
     }
 
-    calender(userId);
+    calendar(userId);
   }, [userId]);
-  return;
+  return { calendar, calendarLoading };
 }

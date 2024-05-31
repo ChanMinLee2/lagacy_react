@@ -1,29 +1,31 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import { axiosInstance } from "../api/apiConstants";
 
 export default function useExamSubmit(answers, examId, isSubmitted) {
-  // / 응답이 배열인지 확인하고, 객체인 경우 배열로 변환
-  const [examRes, setExamRes] = useState();
+  const [examRes, setExamRes] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    async function getExam(answers, examId) {
+    async function submitExam(answers, examId) {
+      setIsSubmitting(true);
       try {
-        const exam = await axiosInstance.post(`/exam/` + examId + "/submit", {
+        const exam = await axiosInstance.post(`/exam/${examId}/submit`, {
           answers: Object.values(answers),
         });
         const examInfo = await exam.data;
         console.log(examInfo);
         setExamRes(examInfo);
-        // localStorage.setItem("examInfo", JSON.stringify(examInfo));
       } catch (error) {
-        console.error("Login error:", error);
+        console.error("Submit exam error:", error);
+      } finally {
+        setIsSubmitting(false);
       }
     }
 
     if (isSubmitted) {
-      getExam(answers, examId);
+      submitExam(answers, examId);
     }
-  }, [isSubmitted]);
-  return examRes;
+  }, [isSubmitted, answers, examId]);
+
+  return { examRes, isSubmitting };
 }

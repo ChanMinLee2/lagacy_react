@@ -30,9 +30,9 @@ const getWordIdByEnglish = (englishWord) => {
 const WordManagePage = () => {
   const [ordering, setOrdering] = useState("");
 
-  let wordsInfo = useWordList(ordering);
-  wordsInfo = JSON.parse(wordsInfo);
-  useWordList(ordering);
+  const { wordsInfo, loading } = useWordList(ordering);
+  // wordsInfo = JSON.parse(wordsInfo);
+  // useWordList(ordering);
 
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -121,6 +121,10 @@ const WordManagePage = () => {
     "?ordering=date_modified",
     "?ordering=-date_modified",
   ];
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <S.Container>
