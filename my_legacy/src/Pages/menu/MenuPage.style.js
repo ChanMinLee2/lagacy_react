@@ -11,12 +11,12 @@ export const Container = styled.div`
 `;
 
 export const HeaderImage = styled.img`
-  width: 100%;
+  width: 0%;
   height: 25vh;
 `;
 
 export const ProfileContainer = styled.div`
-  height: 15%;
+  height: 20%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,7 +99,7 @@ export const PointsBox = styled.a`
   color: #000;
 
   &:hover {
-    background-color: rgb(235, 239, 196);
+    background-color: #f6f279;
   }
 `;
 

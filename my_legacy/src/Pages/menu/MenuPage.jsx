@@ -4,6 +4,7 @@ import * as S from "./MenuPage.style";
 import useUserMe from "../../Hooks/useUserMe";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import headerImage from "../../assets/menu_bg.webp";
 
 const MenuPage = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const MenuPage = () => {
   return (
     <S.Container>
       {/* <img sr></img> */}
-      <S.HeaderImage src="" />
+      {/* <S.HeaderImage src={headerImage} /> */}
       <S.ProfileContainer>
         <S.ProfilePic />
         {console.log(userInfo)}

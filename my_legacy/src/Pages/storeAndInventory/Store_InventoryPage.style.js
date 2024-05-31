@@ -5,7 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 98%;
   height: 100vh;
   background-color: #f7f7f7;
   padding: 20px;
@@ -62,6 +62,7 @@ export const ItemTitle = styled.h2`
 export const ItemDescription = styled.p`
   font-size: 14px;
   color: #555;
+  font-weight: ${(props) => (props.weight ? props.weight : 400)};
 `;
 
 export const ItemPrice = styled.div`
