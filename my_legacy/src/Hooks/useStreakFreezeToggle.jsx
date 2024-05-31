@@ -12,7 +12,9 @@ export default function useStreakFreezeToggle(activate) {
           freeze_activated: activate,
         });
         const toggled_data = await toggled.data;
-        localStorage.setItem(toggled_data);
+        let new_data = localStorage.getItem("userInfo");
+        new_data = { ...new_data, freeze_activated: toggled_data };
+        localStorage.setItem("userInfo", JSON.stringify(new_data));
       } catch (error) {
         console.error("Login error:", error);
       }

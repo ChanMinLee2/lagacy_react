@@ -79,11 +79,12 @@ const MenuPage = () => {
         )}
       </S.ProfileContainer>
       <S.StreakCalendar>
-        {streakData.map((date) => (
-          <S.DayBox key={date} learned={calendar.calendar.calendar[date] > 0}>
-            {new Date(date).getDate()}
-          </S.DayBox>
-        ))}
+        {calendar &&
+          streakData.map((date) => (
+            <S.DayBox key={date} learned={calendar.calendar.calendar[date] > 0}>
+              {new Date(date).getDate()}
+            </S.DayBox>
+          ))}
       </S.StreakCalendar>
       <S.StreakBox>
         <S.StreakTitle>🪴 스트릭</S.StreakTitle>

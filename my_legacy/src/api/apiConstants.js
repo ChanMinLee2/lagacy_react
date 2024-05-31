@@ -22,10 +22,10 @@ const csrftoken = getCookie("csrftoken");
 // axios 인스턴스 생성
 const axiosInstance = axios.create({
   withCredentials: true,
-  baseURL: "http://172.30.1.22:8000",
+  baseURL: "http://otoeic.timelimitexceeded.kr",
   headers: {
     "Content-Type": "application/json",
-    // "X-CSRFToken": csrftoken,
+    "X-CSRFToken": csrftoken,
   },
   auth: {
     username: "admin",
